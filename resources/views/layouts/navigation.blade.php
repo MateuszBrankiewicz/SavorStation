@@ -1,5 +1,4 @@
-<nav x-data="{ open: false }"
-    class="bg-opacity-30 rounded-md border-b border-gray-100 dark:bg-gray-900 dark:border-gray-700 backdrop-filter backdrop-blur-sm">
+<nav x-data="{ open: false }" class="bg-opacity-30 rounded-md bg-gradient backdrop-filter backdrop-blur-sm">
     <!-- Primary Navigation Menu -->
     <div class="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
@@ -7,7 +6,7 @@
                 <!-- Logo -->
                 <div class="flex items-center w-1/12 shrink-0">
                     <a href="{{ route('dashboard') }} w-full">
-                        <x-nav-link-logo class="block w-full text-gray-800 fill-current dark:text-gray-200" />
+                        <x-nav-link-logo class="block w-full text-gray-800 fill-current dark:text-orange-400" />
                     </a>
                 </div>
 

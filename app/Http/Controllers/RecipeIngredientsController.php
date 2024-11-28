@@ -24,7 +24,8 @@ class RecipeIngredientsController extends Controller
                 'unity' => $ingredient->unity,
             ];
         });
+        $comments = (new CommentController)->getComment($recipe);
 
-        return view('recipes.show', compact('recipe', 'combinedIngredients'));
+        return view('recipes.show', compact('recipe', 'combinedIngredients', 'comments'));
     }
 }
