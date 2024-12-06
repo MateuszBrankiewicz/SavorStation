@@ -104,6 +104,7 @@
 
 
 
+            kroki++;
             unityInput.name = 'unity[]';
             unityInput.classList.add('w-1/4', 'p-2', 'rounded', 'bg-gray-800', 'text-white');
             ingredientDiv.appendChild(ingredientInput);

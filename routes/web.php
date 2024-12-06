@@ -25,7 +25,7 @@ Route::get('/addRecipe', function () {
 Route::middleware(['auth'])->group(function () {
     Route::get('/recipes/create', [RecipeController::class, 'create'])->name('recipes.create');
     Route::post('/recipes', [RecipeController::class, 'store'])->name('recipes.store');
-    Route::get('/recipes', [RecipeController::class, 'index'])->name('recipes.index');
+    Route::get('/allRecipes', [RecipeController::class, 'index'])->name('recipes.index');
     Route::get('/recipes/{recipe}', [RecipeIngredientsController::class, 'index'])->name('recipes.show');
 });
 require __DIR__.'/auth.php';

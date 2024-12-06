@@ -7,7 +7,7 @@ use App\Models\Recipe;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-
+use App\Models\User;
 use function Laravel\Prompts\error;
 
 class RecipeController extends Controller
@@ -29,8 +29,9 @@ class RecipeController extends Controller
 
     public function index()
     {
-        $recipes = Recipe::with('ingredients')->latest()->get();
-
+        $recipes = Recipe::with('ingredients')->get();
+        error_log($recipes);
+        //$user = User::find($recipes->user_id);
         return view('recipes.index', compact('recipes'));
     }
 
