@@ -37,12 +37,35 @@ class CommentController extends Controller
         return redirect()->back()->with('success', 'Comment added successfully!');
 
     }
-    public function ajaxLike(Request $request)
-    {
-        $user = User::find(Auth::user()->id);
-        $comment = Comment::find($request->id);
-        $response = $user->toggleLikeDislike($comment->id, $request->like);
-    error_log($comment->likes);
-        return response()->json(['success' => $response]);
+
+public function commentsLike(Request $request)
+{
+    $comment = Comment::find($request->comment_id);
+    $user = auth()->user();
+
+   
+    if ($user->hasLiked($comment->id)) {
+        $user->unlike($comment->id);
+    } else {
+        $user->like($comment->id);
     }
+
+    return back(); 
+}
+
+public function commentsDislike(Request $request)
+{
+    $comment = Comment::find($request->comment_id);
+    $user = auth()->user();
+
+   
+    if ($user->hasDisliked($comment->id)) {
+        $user->unlike($comment->id);
+    } else {
+        $user->dislike($comment->id);
+    }
+
+    return back(); 
+}
+
 }

@@ -31,7 +31,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/recipes/{recipe}', [RecipeIngredientsController::class, 'index'])->name('recipes.show');
     Route::post('/recipes/{recipe}/rate', [RecipeController::class, 'rate'])->name('recipes.rate');
     Route::post('/recipe/addComment/{recipe}', [CommentController::class, 'addComment'])->name('comment.add');
-    Route::post('posts/ajax-like-dislike', [CommentController::class, 'ajaxLike'])->name('posts.comment.like.dislike');
+    Route::post('comments/like', [CommentController::class,'commentsLike']) -> name("posts.comment.like");
+    Route::post('comments/disLike', [CommentController::class,'commentsdisLike']) -> name("posts.comment.dislike");
 
 });
 require __DIR__.'/auth.php';

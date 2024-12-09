@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\DB;
 
 class User extends Authenticatable
 {
@@ -48,7 +49,7 @@ class User extends Authenticatable
     }
     
     public function likes(){
-        return $this->hasMany(Like::class);
+        return $this->hasMany(Like::class, 'user_id','id');
     }
     public function hasLiked($comment_id){
         return $this->likes()->where('comment_id',$comment_id)->where('like',true)->exists();
@@ -56,32 +57,52 @@ class User extends Authenticatable
     public function hasDisLiked($comment_id){
         return $this->likes()->where('comment_id',$comment_id)->where('like',false)->exists();
     }
-    public function toggleLikeDislike($comment_id, $like)
-    {
-        // Check if the like/dislike already exists
-        $existingLike = $this->likes()->where('comment_id', $comment_id)->first();
 
-        if ($existingLike) {
-            if ($existingLike->like == $like) {
-                $existingLike->delete();
+public function like($comment_id)
+{
+    $this->likes()->where('comment_id', $comment_id)->delete();
+    
+    $this->likes()->updateOrCreate(
+        ['comment_id' => $comment_id],
+        ['like' => 1]
+    );
 
-                return [
-                    'hasLiked' => false,
-                    'hasDisliked' => false
-                ];
-            } else {
-                $existingLike->update(['like' => $like]);
-            }
-        } else {
-            $this->likes()->create([
-                'comment_id' => $comment_id,
-                'like' => $like,
-            ]);
-        }
+    return [
+        'hasLiked' => $this->hasLiked($comment_id),
+        'hasDisliked' => $this->hasDisliked($comment_id),
+    ];
+}
+public function dislike($comment_id)
+{
+    $this->likes()->where('comment_id', $comment_id)->delete();
+    
+    $this->likes()->updateOrCreate(
+        ['comment_id' => $comment_id],
+        ['like' => 0]
+    );
 
-        return [
-            'hasLiked' => $this->hasLiked($comment_id),
-            'hasDisliked' => $this->hasDisliked($comment_id)
-        ];
-    }
+    return [
+        'hasLiked' => $this->hasLiked($comment_id),
+        'hasDisliked' => $this->hasDisliked($comment_id),
+    ];
+}
+public function unlike($comment_id)
+{
+    $this->likes()->where('comment_id', $comment_id)->delete();
+
+    return [
+        'hasLiked' => $this->hasLiked($comment_id),
+        'hasDisliked' => $this->hasDisliked($comment_id),
+    ];
+}
+public function undislike($comment_id)
+{
+    $this->dislikes()->where('comment_id', $comment_id)->delete();
+
+    return [
+        'hasLiked' => $this->hasLiked($comment_id),
+        'hasDisliked' => $this->hasDisliked($comment_id),
+    ];
+}
+
 }
