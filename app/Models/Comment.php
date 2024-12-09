@@ -16,5 +16,15 @@ class Comment extends Model
     {
         return $this->belongsTo(User::class);
     }
+    public function likes()
+    {
+        return $this->hasMany(Like::class)->where('like', true);
+    }
+
+  
+    public function dislikes()
+    {
+        return $this->hasMany(Like::class)->where('like', false);
+    }
 }
 

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Concerns\HasAttributes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Log;
 
 class Recipe extends Model
 {
@@ -20,8 +21,9 @@ class Recipe extends Model
 
     public function ingredients()
     {
+    
         return $this->belongsToMany(Ingredient::class, 'recipe_ingredients', 'recipe_id', 'ingredient_id')
-            ->withPivot('amount')
+            ->withPivot('amount', 'unity')
             ->withTimestamps();
     }
 

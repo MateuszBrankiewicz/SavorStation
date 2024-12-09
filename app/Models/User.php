@@ -38,11 +38,50 @@ class User extends Authenticatable
      *
      * @return array<string, string>
      */
+   
     protected function casts(): array
     {
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+        ];
+    }
+    
+    public function likes(){
+        return $this->hasMany(Like::class);
+    }
+    public function hasLiked($comment_id){
+        return $this->likes()->where('comment_id',$comment_id)->where('like',true)->exists();
+    }
+    public function hasDisLiked($comment_id){
+        return $this->likes()->where('comment_id',$comment_id)->where('like',false)->exists();
+    }
+    public function toggleLikeDislike($comment_id, $like)
+    {
+        // Check if the like/dislike already exists
+        $existingLike = $this->likes()->where('comment_id', $comment_id)->first();
+
+        if ($existingLike) {
+            if ($existingLike->like == $like) {
+                $existingLike->delete();
+
+                return [
+                    'hasLiked' => false,
+                    'hasDisliked' => false
+                ];
+            } else {
+                $existingLike->update(['like' => $like]);
+            }
+        } else {
+            $this->likes()->create([
+                'comment_id' => $comment_id,
+                'like' => $like,
+            ]);
+        }
+
+        return [
+            'hasLiked' => $this->hasLiked($comment_id),
+            'hasDisliked' => $this->hasDisliked($comment_id)
         ];
     }
 }

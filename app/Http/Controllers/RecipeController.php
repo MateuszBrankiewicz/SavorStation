@@ -7,6 +7,8 @@ use App\Models\Recipe;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+
 use App\Models\User;
 use function Laravel\Prompts\error;
 
@@ -22,19 +24,21 @@ class RecipeController extends Controller
 
         $recipe->load('ingredients');
 
-        error_log(print_r($recipe->ingredients, true));  // Logs the ingredients to the error log
+        error_log(print_r($recipe->ingredients, return: true));  // Logs the ingredients to the error log
 
         return view('recipes.show', compact('recipe'));
     }
 
     public function index()
-    {
-        $recipes = Recipe::with('ingredients')->get();
-        error_log($recipes);
-        //$user = User::find($recipes->user_id);
-        return view('recipes.index', compact('recipes'));
-    }
-
+{
+    
+        $test = Recipe::find(4);
+        error_log($test);
+   
+        $recipes = Recipe::paginate(9);
+    
+        return view('recipes.index', ['recipes' => $recipes]);
+}
     public function store(Request $request)
     {
         error_log('Store method called');
@@ -113,5 +117,19 @@ class RecipeController extends Controller
 
             return back()->withErrors(['error' => 'Wystąpił problem podczas dodawania przepisu: '.$e->getMessage()]);
         }
+    }
+    public function rate(Request $request, Recipe $recipe){
+        $validated = $request -> validate(
+            ['rating' => 'required|numeric|min:0|max:5']
+        );
+        $newRating = $recipe -> rating * $recipe -> votes;
+        $newRating = $newRating + $validated['rating'];
+        $newRating = $newRating/($recipe->votes + 1);
+        $recipe -> rating = $newRating;
+        $recipe -> votes +=1;
+        $recipe->save();
+       return response()->json([
+            'newRating' => $newRating
+       ]);
     }
 }

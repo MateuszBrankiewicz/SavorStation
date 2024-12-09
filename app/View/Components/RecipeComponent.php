@@ -14,18 +14,21 @@ class RecipeComponent extends Component
 
     public $description;
 
-    public $image_path;
+    public $image;
 
     public $ingridients;
-
-    public function __construct($title, $username, $description, $ingridients, $image_path)
+    public $rating;
+    public $id;
+    public function __construct($title, $username, $description, $ingridients, $image, $rating, $id)
 {
     $this->title = $title;
+    $this->id = $id;
     $this->username = $this->getUserName($username);
     $this->description = $description;
     $this->ingridients = $ingridients;
-    $this -> $image_path = $image_path;
-
+    $this -> id = $id;    
+    $this->image = $image;
+    $this ->rating = round($rating,2);
 }
 
     /**
@@ -43,4 +46,5 @@ class RecipeComponent extends Component
         return $userName["name"];
         
     }
+  
 }

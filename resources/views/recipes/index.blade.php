@@ -1,24 +1,30 @@
 <x-app-layout>
-<div class ="flex items-center justify-center flex-col">    
-<div>
-        <p>Wszystkie przepisy</p>
-
-    </div>
-
+    <div class="flex flex-wrap  justify-center">
     @foreach ($recipes as $recipe)
     @php
-    $title = $recipe['title'] ?? 'No Title';
-    $username = $recipe['user_id'];
-    $description = $recipe['description'] ?? 'No description available.';
-    $ingredients = $recipe['ingredients'] ?? [];
-    $imagePath = $recipe['image_path'] ?? 'No image available';
-    @endphp
-    <div class = "flex items-center justify-center w-1/2 h-1/4">
-        <x-recipe-component :title="$title" :username="$username" :description="$description" :ingridients="$ingredients" :imagePath = $imagePath>
-        </x-recipe-component>
+   
+            $directIngredients = DB::table('ingredients')
+                ->join('recipe_ingredients', 'ingredients.id', '=', 'recipe_ingredients.ingredient_id')
+                ->where('recipe_ingredients.recipe_id', $recipe->id)
+                ->select('ingredients.*', 'recipe_ingredients.amount', 'recipe_ingredients.unity')
+                ->get();
+                $directIngredients = $directIngredients -> toArray();
+                //error_log(print_r($recipe['ingredients']->toArray(), true));
 
+        @endphp
+        <div class = 'lg:w-[30%] sm:w-[80%] md:w-[48%] h-1/3 mx-1 my-2'>
+    <x-recipe-component
+        :title="$recipe->title"
+        :username="$recipe->user_id"
+        :description="$recipe->description"
+        
+        :image="$recipe->image_path"
+        :ingridients="$directIngredients"
+        :rating="$recipe->rating"
+        :id="$recipe->id"
+        ></x-recipe-component>
         </div>
-    @endforeach
-
+        @endforeach
     </div>
+   <div class=" flex align-center justify-center "> {{$recipes->links('pagination::simple-tailwind')}}</div>
 </x-app-layout>

@@ -1,35 +1,31 @@
-<div class="grid grid-cols-4 grid-rows-4 gap-4 text-orange-800 bg-gradient">
-    <!-- Title Section -->
-    <div class="col-span-2 col-start-2 text-2xl font-bold text-center">
-        {{ $title ?? 'Untitled Recipe' }}
+<a href={{route("recipes.show", ['recipe' => $id])}}>
+<div class="bg-gradient container mx-auto mt-12 space-y-4 max-w-6xl relative">
+    <!-- Zdjęcie przepisu -->
+    <img class="w-full h-auto" src="{{ url('storage/' . $image) }}" alt="Zdjęcie przepisu">
+    
+    <!-- Tytuł przepisu -->
+    <div class="text-center">
+        <p class="text-xl font-bold text-orange-700">{{$title}}</p>
+    </div>
+    
+    <!-- Składniki -->
+    <div class="mt-2 px-2 ">
+        <p class=" text-gray-100 font-extrabold">Kilka z użytych składników:</p>
+        <p class="text-gray-400 font">
+        @foreach($ingridients as $ingredient)
+            {{$ingredient->name}}{{ !$loop->last ? ',' : '' }}
+        @endforeach
+        </p>
+    </div>
+    <div class="flex px-2 ">
+    <div class="text-left w-1/2 text-gray-500">    <span>Ocena <br> {{$rating}}</span>
     </div>
 
-    <!-- Image Section -->
-    <div class="flex row-span-2 row-start-2 justify-center items-center">
-        @if (!empty($image_path))
-            <img src="{{ asset($image_path) }}" alt="{{ $title }}" class="max-w-full h-auto" />
-        @else
-            <span class="italic text-gray-500">No Image Available</span>
-        @endif
+    <!-- Autor przepisu -->
+    <div class=" text-right w-1/2 text-gray-300">
+       
+        <span>Autor <br> {{$username}}</span>
     </div>
-
-    <!-- Description Section -->
-    <div class="col-span-3 row-start-2 p-4 text-lg text-left">
-        {{ $description ?? 'No description available.' }}
-    </div>
-
-    <!-- Username Section -->
-    <div class="col-span-3 col-start-2 row-start-3 font-medium text-right">
-        Created by: {{ $username ?? 'Anonymous' }}
-    </div>
-
-    <!-- Ingredients Section -->
-    <div class="col-span-2 col-start-3 row-start-4 p-4 border-t-2 border-gray-200">
-        <h3 class="mb-2 font-semibold">Ingredients:</h3>
-        <ul class="list-disc list-inside">
-            @foreach ($ingridients ?? [] as $ingredient)
-                <li>{{ $ingredient['name'] ?? 'Unknown Ingredient' }} - {{ $ingredient['amount'] ?? 'Unknown Amount' }}</li>
-            @endforeach
-        </ul>
     </div>
 </div>
+</a>
