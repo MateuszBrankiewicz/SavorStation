@@ -51,11 +51,17 @@ class User extends Authenticatable
     public function likes(){
         return $this->hasMany(Like::class, 'user_id','id');
     }
+    public function favorites(){
+        return $this -> hasMany(Favorite::class);
+    }
     public function hasLiked($comment_id){
         return $this->likes()->where('comment_id',$comment_id)->where('like',true)->exists();
     }
     public function hasDisLiked($comment_id){
         return $this->likes()->where('comment_id',$comment_id)->where('like',false)->exists();
+    }
+    public function hasFavorite($recipe_id){
+        return $this -> favorites() -> where('recipe_id', $recipe_id) -> exists();
     }
 
 public function like($comment_id)

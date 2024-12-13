@@ -6,6 +6,15 @@
     <!-- Tytuł przepisu -->
     <div class="text-center">
         <p class="text-xl font-bold text-orange-700">{{$title}}</p>
+</a>
+    <form action="{{route('add.favorite',['id' => $id])}}" method="post">
+        @csrf
+    <button type="submit">    
+    <i class="fa-heart absolute text-3xl {{auth() -> user() -> hasFavorite($id) ? 'fa-solid' : 'fa-regular'}} text-red-600 top-2 right-0"></i>
+    </button>
+        </form>
+        <a href={{route("recipes.show", ['recipe' => $id])}}>
+
     </div>
     
     <!-- Składniki -->

@@ -11,18 +11,21 @@
                 </div>
 
                 <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:flex sm:-my-px sm:ms-10">
+                <div class="hidden space-x-16 md:flex md:-my-px md:ms-10">
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
+                        {{ __('Najnowsze') }}
                     </x-nav-link>
                     <x-nav-link :href="route('recipes.index')" :active="request()->routeIs('recipes')">
                         {{ __('Przepisy') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('get.favorites',['id'=>Auth::user()->id])" :active="request()->routeIs('get.favorites')">{{__('Ulubione')}}</x-nav-link>
+                    <x-nav-link :href="route('get.userRecipes',['id'=>Auth::user()->id])" :active="request()->routeIs('get.userRecipes')">{{__('Moje Przepisy')}}</x-nav-link>
+                    <x-responsive-search-bar></x-responsive-search-bar>
                 </div>
             </div>
 
             <!-- Settings Dropdown -->
-            <div class="hidden sm:flex sm:items-center sm:ms-6">
+            <div class="hidden md:flex md:items-center md:ms-6">
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button
@@ -60,7 +63,7 @@
             </div>
 
             <!-- Hamburger -->
-            <div class="flex items-center sm:hidden -me-2">
+            <div class="flex items-center md:hidden -me-2">
                 <button @click="open = ! open"
                     class="inline-flex justify-center items-center p-2 text-gray-400 rounded-md transition duration-150 ease-in-out dark:text-gray-500 hover:text-gray-500 hover:bg-gray-100 focus:text-gray-500 focus:bg-gray-100 focus:outline-none dark:hover:text-gray-400 dark:hover:bg-gray-900 dark:focus:bg-gray-900 dark:focus:text-gray-400">
                     <svg class="w-6 h-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
@@ -81,6 +84,12 @@
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('recipes.index')" :active="request()->routeIs('recipes')">
+                        {{ __('Przepisy') }}
+                    </x-responsive-nav-link>
+                    <x-responsive-nav-link :href="route('get.favorites',['id'=>Auth::user()->id])" :active="request()->routeIs('get.favorites')">{{__('Ulubione')}}</x-responsive-nav-link>
+                    <x-responsive-nav-link :href="route('get.userRecipes',['id'=>Auth::user()->id])" :active="request()->routeIs('get.userRecipes')">{{__('Twoje Przepisy')}}</x-responsive-nav-link>
+                   <x-responsive-search-bar></x-responsive-search-bar> 
         </div>
 
         <!-- Responsive Settings Options -->

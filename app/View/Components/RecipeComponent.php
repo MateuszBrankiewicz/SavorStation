@@ -2,6 +2,7 @@
 
 namespace App\View\Components;
 
+use App\Models\Ingredient;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
@@ -25,7 +26,7 @@ class RecipeComponent extends Component
     $this->id = $id;
     $this->username = $this->getUserName($username);
     $this->description = $description;
-    $this->ingridients = $ingridients;
+    $this->ingridients = Ingredient::getIngredients($ingridients);
     $this -> id = $id;    
     $this->image = $image;
     $this ->rating = round($rating,2);

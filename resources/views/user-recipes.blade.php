@@ -1,3 +1,4 @@
+
 <x-app-layout>
     <div class="flex flex-wrap  justify-center">
     @foreach ($recipes as $recipe)
@@ -16,5 +17,6 @@
         </div>
         @endforeach
     </div>
-   <div class=" flex align-center justify-center "> {{$recipes->links('pagination::simple-tailwind')}}</div>
+    <div class=" flex align-center justify-center "> {{$recipes->links('pagination::simple-tailwind')}}</div>
+
 </x-app-layout>

@@ -5,6 +5,8 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RecipeController;
 use App\Http\Controllers\RecipeIngredientsController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\FavoriteController;
+use App\Http\Controllers\SearchQuery;
 
 Route::get('/', function () {
     return view('welcome');
@@ -33,6 +35,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/recipe/addComment/{recipe}', [CommentController::class, 'addComment'])->name('comment.add');
     Route::post('comments/like', [CommentController::class,'commentsLike']) -> name("posts.comment.like");
     Route::post('comments/disLike', [CommentController::class,'commentsdisLike']) -> name("posts.comment.dislike");
-
+    Route::post('/recipes/{id}/favorites', [RecipeController::class, 'addFavorite']) -> name('add.favorite');
+    Route::get( '/favorites/{id}',[FavoriteController :: class, 'getUserRecipes']) -> name('get.favorites');
+    Route::get('/userRecipes/{id}', [RecipeController::class, 'getUserRecipes']) -> name('get.userRecipes');
+    //Route::get('/search', [SearchQuery::class, 'index']) -> name('search');
 });
 require __DIR__.'/auth.php';

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Favorite;
 use App\Models\Ingredient;
 use App\Models\Recipe;
 use Illuminate\Http\Request;
@@ -131,5 +132,21 @@ class RecipeController extends Controller
        return response()->json([
             'newRating' => $newRating
        ]);
+    }
+    public function addFavorite(Request $request, $id) {
+        $favorite = new Favorite();
+        $existingFavorite = $favorite::where('recipe_id',$id) -> where('user_id', auth() -> id());
+        if($existingFavorite -> exists()){
+            $existingFavorite -> delete();
+            return back() -> with('succes', 'Przepis został usunięty');
+        }
+        $favorite->user_id = auth()->id(); 
+        $favorite->recipe_id = $id;
+        $favorite->save();
+        return back()->with('success', 'Przepis dodany do ulubionych!');
+    }
+    public function getUserRecipes($userId){
+        $recipes = Recipe::where('user_id', $userId) -> paginate(9);
+        return view('user-recipes',compact('recipes'));
     }
 }

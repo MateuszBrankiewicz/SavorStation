@@ -1,4 +1,6 @@
 <x-app-layout>
+<h1 class="text-white text-4xl text-center mt-4">Twoje Ulubione Przepisy</h1>
+
     <div class="flex flex-wrap  justify-center">
     @foreach ($recipes as $recipe)
   
@@ -16,5 +18,6 @@
         </div>
         @endforeach
     </div>
-   <div class=" flex align-center justify-center "> {{$recipes->links('pagination::simple-tailwind')}}</div>
+    <div class=" flex align-center justify-center "> {{$recipes->links('pagination::simple-tailwind')}}</div>
+
 </x-app-layout>
