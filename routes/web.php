@@ -38,6 +38,6 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/recipes/{id}/favorites', [RecipeController::class, 'addFavorite']) -> name('add.favorite');
     Route::get( '/favorites/{id}',[FavoriteController :: class, 'getUserRecipes']) -> name('get.favorites');
     Route::get('/userRecipes/{id}', [RecipeController::class, 'getUserRecipes']) -> name('get.userRecipes');
-    //Route::get('/search', [SearchQuery::class, 'index']) -> name('search');
+    Route::get('/allRecipes', [SearchQuery::class, 'index']) -> name('recipes.index');
 });
 require __DIR__.'/auth.php';

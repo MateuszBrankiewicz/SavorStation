@@ -11,9 +11,9 @@
                 </div>
 
                 <!-- Navigation Links -->
-                <div class="hidden space-x-16 md:flex md:-my-px md:ms-10">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Najnowsze') }}
+                <div class="hidden space-x-8 md:flex md:-my-px md:ms-10">
+                    <x-nav-link :href="route('recipes.create')" :active="request()->routeIs('recipe.create')">
+                        {{ __('Dodaj Przepis') }}
                     </x-nav-link>
                     <x-nav-link :href="route('recipes.index')" :active="request()->routeIs('recipes')">
                         {{ __('Przepisy') }}

@@ -6,12 +6,13 @@ use Illuminate\Database\Eloquent\Concerns\HasAttributes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
+use Laravel\Scout\Searchable;
 
 class Recipe extends Model
 {
     use HasAttributes;
     use HasFactory;
-
+  
     protected $fillable = ['user_id', 'title', 'description', 'instructions', 'image_path'];
 
     public function user()
@@ -31,4 +32,5 @@ class Recipe extends Model
     {
         return $this->hasMany(Comment::class);
     }
+    
 }
