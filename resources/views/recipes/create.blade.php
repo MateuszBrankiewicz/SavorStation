@@ -1,137 +1,173 @@
 <x-app-layout>
-    <div class="text-center">
-        <h4 class="text-white">Dodaj swój własny przepis</h4>
+    <div class="text-center mt-8">
+        <h4 class="text-2xl font-bold text-gray-100">Dodaj Swój Własny Przepis</h4>
+        <p class="text-gray-300 mt-2">Podziel się swoim przepisem z innymi! Wypełnij formularz poniżej.</p>
     </div>
-    <div class = "flex justify-center items-center">
-        <div
-            class="flex justify-center items-center px-4 w-3/5 bg-gray-900 bg-opacity-30 rounded-md border border-black sm:px-6 md:w-2/4 lg:px-8 lg:w-2/5 xl:w-1/3 backdrop-filter backdrop-blur-sm">
-            <form method="POST" action="{{ route('recipes.store') }}" enctype="multipart/form-data">
+    <div class="flex justify-center items-center mt-8">
+        <div class="w-full max-w-4xl px-6 py-8 bg-gray-900 bg-opacity-50 rounded-lg shadow-lg border border-gray-800">
+            <form method="POST" action="{{ route('recipes.store') }}" enctype="multipart/form-data" class="space-y-6">
                 @csrf
+
                 <!-- Nazwa przepisu -->
-                <div class="mb-4">
-                    <x-input-label for="recipeName" :value="__('Nazwa przepisu')"></x-input-label>
-                    <x-text-input id="recipeName" name="recipeName" type="text" :value="old('recipeName')"
-                        class="w-full"></x-text-input>
+                <div class="space-y-2">
+                    <x-input-label for="recipeName" :value="__('Nazwa przepisu')" class="text-lg font-semibold text-gray-200"></x-input-label>
+                    <x-text-input id="recipeName" name="recipeName" type="text" :value="old('recipeName')" class="w-full bg-gray-800 text-white rounded-md"></x-text-input>
+                    @error('recipeName')
+                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 <!-- Opis przepisu -->
-                <div class="mb-4">
-                    <x-input-label for="recipeDescription" :value="__('Opis przepisu')"></x-input-label>
-                    <textarea id="recipeDescription" name="recipeDescription" rows="4"
-                        class="p-2 mt-1 w-full bg-gray-900 rounded-md border-black shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                    {{ old('recipeDescription') }}
-                </textarea>
+                <div class="space-y-2">
+                    <x-input-label for="recipeDescription" :value="__('Opis przepisu')" class="text-lg font-semibold text-gray-200"></x-input-label>
+                    <textarea id="recipeDescription" name="recipeDescription" rows="4" class="w-full p-3 bg-gray-800 text-white rounded-md border border-gray-700 focus:border-indigo-500 focus:ring focus:ring-indigo-500">{{ old('recipeDescription') }}</textarea>
+                    @error('recipeDescription')
+                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    @enderror
                 </div>
 
-                <!-- Dynamiczne dodawanie składników -->
-                <div id="ingredientsContainer" class="mb-4">
-                    <x-input-label :value="__('Składniki')"></x-input-label>
+                <!-- Zdjęcie -->
+                <div class="space-y-2">
+                    <x-input-label for="recipeImage" :value="__('Zdjęcie przepisu')" class="text-lg font-semibold text-gray-200"></x-input-label>
+                    <input id="recipeImage" name="recipeImage" type="file" class="block w-full text-sm text-gray-300 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:bg-indigo-600 file:text-white hover:file:bg-indigo-700">
+                    @error('recipeImage')
+                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    @enderror
 
-                    <div class="flex gap-2 mb-2">
-                        <input type="text" name="ingredients[]" placeholder="Nazwa składnika"
-                            class="p-2 w-1/2 text-white bg-gray-800 rounded">
-                        <input type="text" name="amounts[]" placeholder="Ilość"
-                            class="p-2 w-1/2 text-white bg-gray-800 rounded">
-                        <select name=unity[] class="p-2 w-1/4 text-white bg-gray-800">
-                            <option value="kg">kg</option>
-                            <option value="ml">ml</option>
-                            <option value="l">litry</option>
-                            <option value="g">gramy</option>
-                            <option value="lyz">lyzki</option>
-                            <option value="szt">sztuki</option>
-                            <option value="szkl">szklanki</option>
+                </div>
+                <!-- Kategorie -->
+                <div class="flex  justify-around">
+                    <div>
+                        <x-input-label for="categoryRec" :value="__('Kategoria przepisu')" class="text-lg font-semibold text-gray-200"></x-input-label>
+
+                        <select name="categoryRec" id="categoryRec" class="bg-gray-800 text-gray-300">
+                            <option value="0" {{ old('categoryRec') == '0' ? 'selected' : '' }}>-- Wybierz --</option>
+                            <option value="1" {{ old('categoryRec') == '1' ? 'selected' : '' }}>Kuchnia włoska</option>
+                            <option value="2" {{ old('categoryRec') == '2' ? 'selected' : '' }}>Kuchnia meksykańska</option>
+                            <option value="3" {{ old('categoryRec') == '3' ? 'selected' : '' }}>Kuchnia polska</option>
+                            <option value="4" {{ old('categoryRec') == '4' ? 'selected' : '' }}>Kuchnia chińska</option>
+                            <option value="5" {{ old('categoryRec') == '5' ? 'selected' : '' }}>Kuchnia japońska</option>
+                            <option value="6" {{ old('categoryRec') == '6' ? 'selected' : '' }}>Kuchnia indyjska</option>
+                            <option value="7" {{ old('categoryRec') == '7' ? 'selected' : '' }}>Kuchnia francuska</option>
+                            <option value="8" {{ old('categoryRec') == '8' ? 'selected' : '' }}>Kuchnia tajska</option>
+                            <option value="9" {{ old('categoryRec') == '9' ? 'selected' : '' }}>Kuchnia amerykańska</option>
+                            <option value="10" {{ old('categoryRec') == '10' ? 'selected' : '' }}>Kuchnia grecka</option>
                         </select>
+
+                        @error('categoryRec')
+                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+                    <div>
+                        <x-input-label :value="__('Czas wykonania')" class="text-lg font-semibold text-gray-200"></x-input-label>
+                        <input type="number" name="makeTime" id="makeTime" class="bg-gray-800 text-gray-300" min="0" value="{{ old('makeTime') }}">
+                        @error('makeTime')
+                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
                 </div>
-                <x-secondary-button type="button" id="addIngredientButton" class="py-2 px-4 text-white">
-                    Dodaj składnik
-                </x-secondary-button>
+                <div>
 
-                <!-- Dodawanie zdjęcia przepisu -->
-                <div class="mt-4 mb-4">
-                    <x-input-label for="recipeImage" :value="__('Dodaj zdjęcie przepisu')"></x-input-label>
-                    <input id="recipeImage" name="recipeImage" type="file"
-                        class="block w-full text-sm text-gray-300 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-500 file:text-white hover:file:bg-blue-600">
-                </div>
-                <!-- Dodawanie kroków --->
-                <div id="stepsContainer">
-                    <x-input-label :value="__('Kroki')"> </x-input-label>
-                    <input type="text" name="steps[]" placeholder="Krok nr 1"
-                        class="p-2 w-1/2 text-white bg-gray-800 rounded">
-                    <x-secondary-button type="button" id="addStepButton" class="py-2 px-4 text-white">Dodaj
-                        krok</x-secondary-button>
-                </div>
-                <!-- Przycisk dodawania przepisu -->
-                <div class="mt-4">
-                    <x-primary-button class="py-2 px-4">
-                        Dodaj przepis
-                    </x-primary-button>
-                </div>
+                    <!-- Składniki -->
+                    <div class="space-y-4">
+                        <x-input-label :value="__('Składniki')" class="text-lg font-semibold text-gray-200"></x-input-label>
+                        <div id="ingredientsContainer" class="space-y-3">
+                            <div class="flex gap-4 ingredient-item">
+                                <input type="text" name="ingredients[]" placeholder="Nazwa składnika" class="w-1/2 p-3 bg-gray-800 text-white rounded-md" value="{{ old('ingredients.0') }}">
+                                @error('ingredients.0')
+                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                                @enderror
+                                <input type="text" name="amounts[]" placeholder="Ilość" class="w-1/4 p-3 bg-gray-800 text-white rounded-md" value="{{ old('amounts.0') }}">
+                                @error('amounts.0')
+                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                                @enderror
+                                <select name="unity[]" class="w-1/4 p-3 bg-gray-800 text-white rounded-md">
+                                    <option value="kg" {{ old('unity.0') == 'kg' ? 'selected' : '' }}>kg</option>
+                                    <option value="ml" {{ old('unity.0') == 'ml' ? 'selected' : '' }}>ml</option>
+                                    <option value="g" {{ old('unity.0') == 'g' ? 'selected' : '' }}>g</option>
+                                    <option value="szt" {{ old('unity.0') == 'szt' ? 'selected' : '' }}>szt</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button id="addIngredientButton" type="button" class="w-full bg-green-600 text-white rounded-md px-4 py-2 hover:bg-green-700">Dodaj składnik</button>
+                    </div>
+
+                    <!-- Kroki -->
+                    <div class="space-y-4">
+                        <x-input-label :value="__('Kroki')" class="text-lg font-semibold text-gray-200"></x-input-label>
+                        <div id="stepsContainer" class="space-y-3">
+                            <div class="flex gap-4 step-item">
+                                <input type="text" name="steps[]" placeholder="Krok nr 1" class="w-full p-3 bg-gray-800 text-white rounded-md" value="{{ old('steps.0') }}">
+                                @error('steps.0')
+                                <p class="text-red-500 text-sm mt-1"> 'Kroki nie mogą być puste'</p>
+                                @enderror
+                            </div>
+                        </div>
+                        <button id="addStepButton" type="button" class="w-full bg-green-600 text-white rounded-md px-4 py-2 hover:bg-green-700">Dodaj krok</button>
+                    </div>
+
+                    <!-- Submit -->
+                    <div>
+                        <x-primary-button class="w-full py-3">
+                            Dodaj Przepis
+                        </x-primary-button>
+                    </div>
             </form>
         </div>
     </div>
-    <script>
-        document.getElementById('addIngredientButton').addEventListener('click', function() {
-            const container = document.getElementById('ingredientsContainer');
-            const ingredientDiv = document.createElement('div');
-            ingredientDiv.classList.add('flex', 'gap-2', 'mb-2');
-
-            const ingredientInput = document.createElement('input');
-            ingredientInput.type = 'text';
-            ingredientInput.name = 'ingredients[]';
-            ingredientInput.placeholder = 'Nazwa składnika';
-            ingredientInput.classList.add('w-1/2', 'p-2', 'bg-gray-800', 'text-white',
-                'rounded');
-
-            const quantityInput = document.createElement('input');
-            quantityInput.type = 'text';
-            quantityInput.name = 'amounts[]';
-            quantityInput.placeholder = 'Ilość';
-            quantityInput.classList.add('w-1/2', 'p-2', 'rounded', 'bg-gray-800', 'text-white');
-
-            const unityTable = ['kg', 'ml', 'l', 'g', 'lyz', 'szt', 'szkl'];
-            let unityInput = document.createElement('select'); // tworzymy <select>
-
-            for (let unity of unityTable) {
-                let option = document.createElement('option');
-                option.value = unity;
-                option.text = unity;
-                unityInput.appendChild(option); // dodajemy opcję
-            }
-
-
-
-
-
-
-            kroki++;
-            unityInput.name = 'unity[]';
-            unityInput.classList.add('w-1/4', 'p-2', 'rounded', 'bg-gray-800', 'text-white');
-            ingredientDiv.appendChild(ingredientInput);
-            ingredientDiv.appendChild(quantityInput);
-            ingredientDiv.appendChild(unityInput); // dodajemy select do ingredientDiv
-            container.appendChild(ingredientDiv);
-
-        });
-
-        let kroki = 2;
-        document.getElementById('addStepButton').addEventListener('click', function() {
-
-            const stepsContainer = document.getElementById('stepsContainer')
-
-            const stepsDiv = document.createElement('div');
-            stepsDiv.classList.add('flex', 'gap-2', 'mb-2');
-
-            const stepsInput = document.createElement('input');
-            stepsInput.type = 'text';
-            stepsInput.classList.add('w-1/2', 'p-2', 'rounded', 'bg-gray-800', 'text-white');
-            stepsInput.name = 'steps[]';
-
-            stepsInput.placeholder = 'Krok nr ' + kroki;
-
-            stepsDiv.appendChild(stepsInput)
-            stepsContainer.appendChild(stepsDiv);
-            kroki++;
-        });
-    </script>
 </x-app-layout>
+
+<script>
+    // Adding Ingredients
+    document.getElementById('addIngredientButton').addEventListener('click', function() {
+        const container = document.getElementById('ingredientsContainer');
+        const ingredientDiv = document.createElement('div');
+        ingredientDiv.classList.add('flex', 'gap-2', 'mb-2', 'ingredient-item');
+
+        ingredientDiv.innerHTML = `
+                <input type="text" name="ingredients[]" placeholder="Nazwa składnika" class="w-1/2 p-3 bg-gray-800 text-white rounded-md">
+                <input type="text" name="amounts[]" placeholder="Ilość"     class="w-1/4 p-3 bg-gray-800 text-white rounded-md">
+                <select name="unity[]" class="p-2 w-1/4 text-white bg-gray-800">
+                    <option value="kg">kg</option>
+                    <option value="ml">ml</option>
+                    <option value="l">litry</option>
+                    <option value="g">gramy</option>
+                    <option value="lyz">lyzki</option>
+                    <option value="szt">sztuki</option>
+                    <option value="szkl">szklanki</option>
+                </select>
+ <button type="button" class="remove-item bg-red-600 text-white rounded-md px-3 py-2 hover:bg-red-700">
+                                Usuń
+                            </button>            `;
+
+        container.appendChild(ingredientDiv);
+    });
+
+    // Adding Steps
+    let stepCount = 2;
+    document.getElementById('addStepButton').addEventListener('click', function() {
+        const container = document.getElementById('stepsContainer');
+        const stepDiv = document.createElement('div');
+        stepDiv.classList.add('flex', 'gap-2', 'mb-2', 'step-item');
+
+        stepDiv.innerHTML = `
+                <input type="text" name="steps[]" placeholder="Krok nr ${stepCount}" class="w-full p-3 bg-gray-800 text-white rounded-md">
+                 <button type="button" class="remove-item bg-red-600 text-white rounded-md px-3 py-2 hover:bg-red-700">
+                                Usuń
+                            </button>
+            `;
+
+        container.appendChild(stepDiv);
+        stepCount++;
+    });
+
+    // Remove Items (Generic)
+    document.addEventListener('click', function(e) {
+        if (e.target && e.target.closest('.remove-item')) {
+            const itemToRemove = e.target.closest('.ingredient-item, .step-item'); // Znajdź najbliższego rodzica z klasą
+            if (itemToRemove) {
+                itemToRemove.remove(); // Usuń cały element
+            }
+        }
+    });
+</script>

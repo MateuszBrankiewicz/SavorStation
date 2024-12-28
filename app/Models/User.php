@@ -63,6 +63,7 @@ class User extends Authenticatable
     public function hasFavorite($recipe_id){
         return $this -> favorites() -> where('recipe_id', $recipe_id) -> exists();
     }
+    
 
 public function like($comment_id)
 {

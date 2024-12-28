@@ -13,7 +13,8 @@ class Recipe extends Model
     use HasAttributes;
     use HasFactory;
   
-    protected $fillable = ['user_id', 'title', 'description', 'instructions', 'image_path'];
+    protected $fillable = ['user_id', 'title', 'description', 'instructions', 'image_path','category_id','make_time'
+];
 
     public function user()
     {
@@ -27,10 +28,19 @@ class Recipe extends Model
             ->withPivot('amount', 'unity')
             ->withTimestamps();
     }
-
+    public function recipeCategory(){
+        return $this -> belongsTo(RecipeCategory::class);
+    }
     public function comments()
     {
         return $this->hasMany(Comment::class);
     }
-    
+    public function getAuthorId($recipeId){
+        $recipe = Recipe::where('id',$recipeId) ->get();
+        return $recipe -> user_id;
+    }
+    public function category()
+    {
+        return $this->belongsTo(RecipeCategory::class);
+    }
 }

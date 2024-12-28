@@ -14,6 +14,8 @@
         :ingridients="$recipe-> id"
         :rating="$recipe->rating"
         :id="$recipe->id"
+        :categoryid="$recipe->category_id"
+        :makeTime="$recipe->make_time"
         ></x-recipe-component>
         </div>
         @endforeach

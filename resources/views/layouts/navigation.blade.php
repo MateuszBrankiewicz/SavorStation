@@ -15,12 +15,12 @@
                     <x-nav-link :href="route('recipes.create')" :active="request()->routeIs('recipe.create')">
                         {{ __('Dodaj Przepis') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('recipes.index')" :active="request()->routeIs('recipes')">
+                    <x-nav-link :href="route('recipes.index')" :active="request()->routeIs('recipes.index')">
                         {{ __('Przepisy') }}
                     </x-nav-link>
                     <x-nav-link :href="route('get.favorites',['id'=>Auth::user()->id])" :active="request()->routeIs('get.favorites')">{{__('Ulubione')}}</x-nav-link>
                     <x-nav-link :href="route('get.userRecipes',['id'=>Auth::user()->id])" :active="request()->routeIs('get.userRecipes')">{{__('Moje Przepisy')}}</x-nav-link>
-                    <x-responsive-search-bar></x-responsive-search-bar>
+                    
                 </div>
             </div>
 
@@ -89,7 +89,7 @@
                     </x-responsive-nav-link>
                     <x-responsive-nav-link :href="route('get.favorites',['id'=>Auth::user()->id])" :active="request()->routeIs('get.favorites')">{{__('Ulubione')}}</x-responsive-nav-link>
                     <x-responsive-nav-link :href="route('get.userRecipes',['id'=>Auth::user()->id])" :active="request()->routeIs('get.userRecipes')">{{__('Twoje Przepisy')}}</x-responsive-nav-link>
-                   <x-responsive-search-bar></x-responsive-search-bar> 
+                    
         </div>
 
         <!-- Responsive Settings Options -->

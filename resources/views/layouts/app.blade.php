@@ -19,7 +19,12 @@
 <body class="font-sans antialiased">
     <div
         class="min-h-screen bg-gray-900 bg-[url('../../../public/assets/background.png')] dark:bg[url({{ asset('../../../public/assets/background.png') }}">
+        @if (Auth::check())
         @include('layouts.navigation')
+        @else
+        @include('layouts.navigation-no-auth')
+        @endif
+        
 
         <!-- Page Heading -->
         @isset($header)

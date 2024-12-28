@@ -4,9 +4,9 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RecipeController;
 use App\Http\Controllers\RecipeIngredientsController;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\SearchQuery;
+use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
@@ -16,28 +16,49 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+// Profile Routes
+Route::prefix('profile')->middleware('auth')->group(function () {
+    Route::get('/', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+// Recipe Routes
+Route::prefix('recipes')->group(function () {
+    Route::get('/', [RecipeController::class, 'index'])->name('recipes.index');
+    Route::get('/create', [RecipeController::class, 'create'])->middleware(['auth'])->name('recipes.create');
+    Route::post('/', [RecipeController::class, 'store'])->middleware(['auth'])->name('recipes.store');
+    Route::post('/{recipe}/rate', [RecipeController::class, 'rate'])->middleware(['auth'])->name('recipes.rate');
+    Route::get('/{id}/edit', [RecipeController::class, 'showEdit'])->middleware(['auth'])->name('recipes.showEdit');
+    Route::put('/{id}', [RecipeController::class, 'update'])->middleware(['auth'])->name('recipes.update');
+    Route::get('/{recipe}', [RecipeIngredientsController::class, 'index'])->name('recipes.show');
+    Route::get('/category/{categoryId}', [RecipeController::class, 'searchCategory'])->name('search.category');
+});
+
+// Additional Recipe Features
 Route::get('/addRecipe', function () {
     return view('recipes.add_recipe');
 })->middleware(['auth', 'verified'])->name('add_recipe');
 
-Route::middleware(['auth'])->group(function () {
-    Route::get('/recipes/create', [RecipeController::class, 'create'])->name('recipes.create');
-    Route::post('/recipes', [RecipeController::class, 'store'])->name('recipes.store');
-    Route::get('/allRecipes', [RecipeController::class, 'index'])->name('recipes.index');
-    Route::get('/recipes/{recipe}', [RecipeIngredientsController::class, 'index'])->name('recipes.show');
-    Route::post('/recipes/{recipe}/rate', [RecipeController::class, 'rate'])->name('recipes.rate');
-    Route::post('/recipe/addComment/{recipe}', [CommentController::class, 'addComment'])->name('comment.add');
-    Route::post('comments/like', [CommentController::class,'commentsLike']) -> name("posts.comment.like");
-    Route::post('comments/disLike', [CommentController::class,'commentsdisLike']) -> name("posts.comment.dislike");
-    Route::post('/recipes/{id}/favorites', [RecipeController::class, 'addFavorite']) -> name('add.favorite');
-    Route::get( '/favorites/{id}',[FavoriteController :: class, 'getUserRecipes']) -> name('get.favorites');
-    Route::get('/userRecipes/{id}', [RecipeController::class, 'getUserRecipes']) -> name('get.userRecipes');
-    Route::get('/allRecipes', [SearchQuery::class, 'index']) -> name('recipes.index');
+// Favorite Routes
+Route::prefix('favorites')->middleware(['auth'])->group(function () {
+    Route::post('/{id}', [RecipeController::class, 'addFavorite'])->name('add.favorite');
+    Route::get('/{id}', [FavoriteController::class, 'getUserRecipes'])->name('get.favorites');
 });
-require __DIR__.'/auth.php';
+
+// User Recipes
+Route::prefix('userRecipes')->middleware(['auth'])->group(function () {
+    Route::get('/{id}', [RecipeController::class, 'getUserRecipes'])->name('get.userRecipes');
+});
+
+// Comment Routes
+Route::prefix('comments')->middleware(['auth'])->group(function () {
+    Route::post('/add/{recipe}', [CommentController::class, 'addComment'])->name('comment.add');
+    Route::post('/like', [CommentController::class, 'commentsLike'])->name('posts.comment.like');
+    Route::post('/dislike', [CommentController::class, 'commentsdisLike'])->name('posts.comment.dislike');
+});
+
+// Search Routes
+//Route::get('/allRecipes', [SearchQuery::class, 'index'])->name('recipes.index');
+
+require __DIR__ . '/auth.php';
