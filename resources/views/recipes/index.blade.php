@@ -1,9 +1,40 @@
 <x-app-layout>
-    
+
+@if(session('success'))
+    <div id="success-alert" class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
+        <strong class="font-bold">Sukces!</strong>
+        <span class="block sm:inline">{{ session('success') }}</span>
+        <button 
+            onclick="document.getElementById('success-alert').style.display='none'" 
+            class="absolute top-0 bottom-0 right-0 px-4 py-3 text-green-500 hover:text-green-800">
+            <svg class="fill-current h-6 w-6" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                <title>Zamknij</title>
+                <path d="M14.348 14.849a1 1 0 01-1.414 0L10 11.414l-2.934 2.935a1 1 0 11-1.414-1.414l2.935-2.934-2.935-2.934a1 1 0 011.414-1.414L10 8.586l2.934-2.935a1 1 0 111.414 1.414L11.414 10l2.935 2.934a1 1 0 010 1.415z"/>
+            </svg>
+        </button>
+    </div>
+    @endif
+@if (session('error'))
+<div id="success-alert" class="bg-green-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+        <strong class="font-bold">Błąd</strong>
+        <span class="block sm:inline">{{ session('success') }}</span>
+        <button 
+            onclick="document.getElementById('success-alert').style.display='none'" 
+            class="absolute top-0 bottom-0 right-0 px-4 py-3 text-red-500 hover:text-red-800">
+            <svg class="fill-current h-6 w-6" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                <title>Zamknij</title>
+                <path d="M14.348 14.849a1 1 0 01-1.414 0L10 11.414l-2.934 2.935a1 1 0 11-1.414-1.414l2.935-2.934-2.935-2.934a1 1 0 011.414-1.414L10 8.586l2.934-2.935a1 1 0 111.414 1.414L11.414 10l2.935 2.934a1 1 0 010 1.415z"/>
+            </svg>
+        </button>
+    </div>
+@endif
+
 <div class="bg-gradient text-white p-3 rounded-lg shadow-lg">
-    <center class="mb-6"><x-responsive-search-bar></x-responsive-search-bar></center>
+<form action="{{route('recipes.search')}}" method="get">
+
+<center class="mb-6">
+        <x-responsive-search-bar></x-responsive-search-bar></center>
     <p class="text-white font-bold text-2xl text-center mb-6">Filtruj przepisy</p>
-    
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <!-- Kategorie -->
         <div class="flex flex-col">
@@ -34,6 +65,7 @@
         <!-- Sortowanie -->
         <label for="sortingValue" class="text-gray-200 mb-2 block">Sortuj według:</label>
         <select name="sortingValue" id="sortingValue" class="bg-gray-800 text-gray-200 p-2 w-full rounded-lg">
+            <option value="0">-- Wybierz --</option>
             <option value="ratingDec">Oceny malejąco</option>
             <option value="ratingInc">Oceny rosnąco</option>
             <option value="timeDec">Czas przygotowania malejąco</option>
@@ -44,10 +76,11 @@
     </div>
     
     <div class="mt-8 flex justify-end">
-        <button class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg transition">
+        <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg transition">
             Zastosuj filtry
         </button>
     </div>
+    </form>
 </div>
 
     <div class="flex flex-wrap  justify-center">

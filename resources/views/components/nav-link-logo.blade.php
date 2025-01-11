@@ -1,1 +1,1 @@
-<img class="w-full" src="{{ asset('assets/logo.png') }}" alt="MainLogo" />
+<img class="w-2/3" src="{{ asset('assets/logo.png') }}" alt="MainLogo" />

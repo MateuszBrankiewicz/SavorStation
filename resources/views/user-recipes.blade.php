@@ -4,16 +4,15 @@
     @foreach ($recipes as $recipe)
   
         <div class = 'lg:w-[30%] sm:w-[80%] md:w-[48%] h-1/3 mx-1 my-2'>
-    <x-recipe-component
+        <x-recipe-component
         :title="$recipe->title"
         :username="$recipe->user_id"
         :description="$recipe->description"
-        
         :image="$recipe->image_path"
         :ingridients="$recipe-> id"
         :rating="$recipe->rating"
         :id="$recipe->id"
-        :category_id="$recipe->category_id"
+        :categoryid="$recipe->category_id"
         :makeTime="$recipe->make_time"
         ></x-recipe-component>
         </div>

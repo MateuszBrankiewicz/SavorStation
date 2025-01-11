@@ -143,7 +143,7 @@ public function store(Request $request)
 
         DB::commit();
 
-        return redirect()->route('recipes.index')->with('success', 'Recipe added successfully.');
+        return redirect()->route('recipes.index')->with('success', 'Przepis dodany pomyślnie');
     } catch (\Exception $e) {
         DB::rollback();
 
@@ -181,7 +181,7 @@ public function store(Request $request)
 
             DB::commit();
 
-            return redirect()->route('recipes.index')->with('success', 'Recipe updated successfully.');
+            return redirect()->route('recipes.index')->with('success', 'Przepis zaktualizowana pomyślnie');
         } catch (\Exception $e) {
             DB::rollback();
 
@@ -230,4 +230,12 @@ public function store(Request $request)
         $recipes = Recipe::where('category_id',$categoryId) -> paginate(9);
         return view('recipes.index', compact('recipes'));
     }
-}
+    public function delete($id){
+        error_log('usuwam');
+        $recipe = Recipe::findOrFail($id);
+        $recipe->delete();
+    
+        return redirect()->route('recipes.index')->with('success', 'Przepis został usunięty.');            $recipe -> delete();
+        }
+    }
+

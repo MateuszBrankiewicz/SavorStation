@@ -7,6 +7,7 @@ use App\Http\Controllers\RecipeIngredientsController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\SearchQuery;
 use Illuminate\Support\Facades\Route;
+Route::get('/recipes/search/', [SearchQuery::class, 'index'])->name('recipes.search');
 
 Route::get('/', function () {
     return view('welcome');
@@ -33,6 +34,7 @@ Route::prefix('recipes')->group(function () {
     Route::put('/{id}', [RecipeController::class, 'update'])->middleware(['auth'])->name('recipes.update');
     Route::get('/{recipe}', [RecipeIngredientsController::class, 'index'])->name('recipes.show');
     Route::get('/category/{categoryId}', [RecipeController::class, 'searchCategory'])->name('search.category');
+    Route::delete('/{id}', [RecipeController::class, 'delete'])->name('recipes.delete');
 });
 
 // Additional Recipe Features
@@ -57,8 +59,7 @@ Route::prefix('comments')->middleware(['auth'])->group(function () {
     Route::post('/like', [CommentController::class, 'commentsLike'])->name('posts.comment.like');
     Route::post('/dislike', [CommentController::class, 'commentsdisLike'])->name('posts.comment.dislike');
 });
-
+Route::post('/filter/recipes/', [SearchQuery::class, 'filter']) ->name('search.filter');
 // Search Routes
-//Route::get('/allRecipes', [SearchQuery::class, 'index'])->name('recipes.index');
 
 require __DIR__ . '/auth.php';
