@@ -1,8 +1,8 @@
 <x-app-layout>
     <x-modal name="confirm-delete-modal" :show="false" maxWidth="sm">
         <div class="p-6 text-center">
-            <h2 class="text-lg font-bold mb-4">Czy na pewno chcesz usunąć przepis?</h2>
-            <p class="mb-6 text-gray-600">Ta akcja jest nieodwracalna.</p>
+            <h2 class="text-lg font-bold text-white mb-4">Czy na pewno chcesz usunąć przepis?</h2>
+            <p class="mb-6 text-gray-200">Ta akcja jest nieodwracalna.</p>
             <div class="flex justify-center gap-4">
                 <button class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
                     x-on:click="document.getElementById('deleteForm').submit()">
@@ -17,8 +17,8 @@
     </x-modal>
     <x-modal name="confirm-update-modal" :show="false" maxWidth="lg">
         <div class="p-6 text-center">
-            <h2 class="text-lg font-bold mb-4">Czy na pewno chcesz zaktualizować przepis?</h2>
-            <p class="mb-6 text-gray-600">Ta akcja jest nieodwracalna.</p>
+            <h2 class="text-lg text-white font-bold mb-4">Czy na pewno chcesz zaktualizować przepis?</h2>
+            <p class="mb-6 text-gray-200">Ta akcja jest nieodwracalna.</p>
             <div class="flex justify-center gap-4">
                 <button class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
                     x-on:click="document.getElementById('updateForm').submit()">
@@ -173,16 +173,8 @@
         </div>
     </div>
     <script>
-        let ingredientCount = {
-            {
-                count($ingredients)
-            }
-        };
-        let stepCount = {
-            {
-                count($recipe - > instructions)
-            }
-        };
+        let ingredientCount = {{count($ingredients)}};
+        let stepCount = {{count($recipe->instructions)}};
 
         document.getElementById('addIngredientButton').addEventListener('click', function() {
             const container = document.getElementById('ingredientsContainer');

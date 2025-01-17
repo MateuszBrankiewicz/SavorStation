@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException; 
+use Illuminate\Database\QueryException;
 
 use App\Models\User;
 use function Laravel\Prompts\error;
@@ -83,8 +84,12 @@ class RecipeController extends Controller
         $recipe->image_path = $imagePath;
         $recipe->category_id = $request->categoryRec;
         $recipe->make_time = $request->makeTime;
+        error_log("Save");
+        try{
         $recipe->save();
-
+        }  catch (QueryException $e) {
+            dd($e->getMessage()); // Wyświetli szczegółowy błąd SQL
+        }
         return $recipe;
     }
     private function addIngredientsToRecipe(Request $request, Recipe $recipe)

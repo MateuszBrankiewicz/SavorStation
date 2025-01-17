@@ -32,7 +32,7 @@
     <!-- Składniki -->
     <div class="mt-2 px-2 ">
         <p class=" text-gray-100 font-extrabold">Kilka z użytych składników:</p>
-        <p class="text-gray-400 font">
+        <p class="text-gray-400 font overflow-hidden max-w-full text-ellipsis whitespace-nowrap">
             @foreach($ingridients as $ingredient)
             {{$ingredient->name}}{{ !$loop->last ? ',' : '' }}
             @endforeach
@@ -54,7 +54,7 @@
     </div>
     <div class="flex justify-center align-center flex-col">
         <a class="w-full" href={{route("recipes.show", ['recipe' => $id])}}>
-            <x-primary-button class="w-full items-center text-center">{{__("Zobacz ogłoszenie")}}</x-primary-button>
+            <x-primary-button class="w-full items-center text-center">{{__("Zobacz przepis")}}</x-primary-button>
         </a>
         @if (auth()->check())
         @if ($user_id === auth() -> user() ->id)
